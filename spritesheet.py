@@ -1,6 +1,6 @@
 import pygame
 
-class SpriteSheet():
+class Enemy_SpriteSheet():
     def __init__(self, image, width, height, color, scale):
         self.sheet = image
         self.width = width

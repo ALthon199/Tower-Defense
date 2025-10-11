@@ -1,7 +1,7 @@
 import pygame
 import math
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, animation, speed, waypoints):
+    def __init__(self, animation, speed, waypoints, HP):
         pygame.sprite.Sprite.__init__(self)
         self.animation = animation
         self.direction = 'down'
@@ -14,6 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position
         self.time = 0
+        self.HP = HP
 
 
     def move(self):
@@ -48,10 +49,13 @@ class Enemy(pygame.sprite.Sprite):
             self.current_waypoint += 1
         
         if self.current_waypoint >= len(self.waypoints):
-            self.current_waypoint = 0
+            self.kill()
 
     def update(self):
+        if self.HP < 0:
+            self.kill()
         self.move()
+        
 
     
 
