@@ -11,8 +11,16 @@ ANIMATION_FRAMES = 8
 ANIMATION_DELAY = 50
 
 ## Enemy Stats
-HEALTH = 500
+HEALTH = 200
+DEATH_GOLD = 25     
 
+## Resources
+COINS = 200
+
+
+## COSTS
+
+TURRET_COST = 50
 
 ## Tower Stats
 DAMAGE = 25

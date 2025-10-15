@@ -1,7 +1,7 @@
 import pygame
 import math
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, animation, speed, waypoints, HP):
+    def __init__(self, animation, speed, waypoints, HP, value):
         pygame.sprite.Sprite.__init__(self)
         self.animation = animation
         self.direction = 'down'
@@ -15,6 +15,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.topleft = self.position
         self.time = 0
         self.HP = HP
+        self.worth = value
 
 
     def move(self):
@@ -54,7 +55,11 @@ class Enemy(pygame.sprite.Sprite):
     def update(self):
         if self.HP < 0:
             self.kill()
+            # Killing mob gives gold
+            return self.worth
+        
         self.move()
+        return False
         
 
     
