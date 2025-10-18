@@ -17,18 +17,19 @@ class World():
         #Parse data for info
         for layer in self.level_data['layers']:
             
-            if layer['name'] == 'tilemap':
+            if layer['name'] == 'Buildable':
                 self.tile_map += layer['data']
 
 
-            elif layer['name'] == 'waypoints':
+            elif layer['name'] == 'Pathway':
                 for obj in layer["objects"]:
                     waypoint_data = obj["polyline"]
-                    self.process_waypoints(waypoint_data)
+                    offset_x, offset_y =  obj['x'], obj['y']
+                    self.process_waypoints(waypoint_data, offset_x, offset_y)
                 
-    def process_waypoints(self, waypoint_data):
+    def process_waypoints(self, waypoint_data, offset_x, offset_y):
         #Iterate through waypoints to extract (x,y)
         for point in waypoint_data:
             x, y = point.values()
-            self.waypoints.append((x,y))
+            self.waypoints.append((offset_x + x,offset_y + y))
        

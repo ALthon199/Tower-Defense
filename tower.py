@@ -3,12 +3,13 @@ import math
 import constants as c
 from tower_data import TOWER_DATA
 class Tower(pygame.sprite.Sprite):
-    def __init__(self, sprite_sheet, tile_X, tile_Y, cost):
+    def __init__(self, base_images, sprite_sheet, projectile, tile_X, tile_Y, cost):
         pygame.sprite.Sprite.__init__(self)
         ## Spritesheet
         self.level = 0
+        self.base_images = base_images
         self.sprite_sheet = sprite_sheet
-        
+        self.projectile = projectile
         self.animation_list = self.load_frames()
         
         #Calculate center
@@ -18,7 +19,7 @@ class Tower(pygame.sprite.Sprite):
 
         #Animation
         self.last_update = pygame.time.get_ticks()
-        self.last_shot = None
+        self.last_shot = 0
         
     
         #Stats
@@ -31,12 +32,14 @@ class Tower(pygame.sprite.Sprite):
         
 
         #image
-        self.last_angle = 0
+        self.angle = 0
         self.frame = 0
         self.is_selected = False
         self.range_image = pygame.Surface((self.next_range * 2, self.next_range * 2), pygame.SRCALPHA)
 
-        self.image = self.animation_list[self.frame]
+        self.image = base_images[self.level]
+        
+        self.weapon_image = self.animation_list[self.frame]
         self.tile_X = tile_X
         self.tile_Y = tile_Y
         self.rect = self.image.get_rect()
@@ -45,6 +48,7 @@ class Tower(pygame.sprite.Sprite):
     ## Extract Frames
     def load_frames(self):
         current_sheet = self.sprite_sheet[self.level]
+        
         size = current_sheet.get_height()
         
         animation_list = []
@@ -64,28 +68,21 @@ class Tower(pygame.sprite.Sprite):
                 break
 
         if curr_enemy == None:
-            self.frame = 0
-            base_image = self.animation_list[self.frame]
-            rotatedImage = pygame.transform.rotate(base_image, -self.last_angle - 90)
-            self.image = rotatedImage
-            self.rect = self.image.get_rect(center = (self.x, self.y))
-            self.play_animation()
-            return 
+            return
+
+        else:
+            # Calculate angle towards the current enemy
+            delta_y = curr_enemy.position[1] - self.y
+            delta_x = curr_enemy.position[0]- self.x
+            
+            self.angle = math.degrees(math.atan2(-delta_y, delta_x))
                 
-    
-        ## Need to fix first shot
-        if self.last_shot == None or pygame.time.get_ticks() - self.last_shot >= self.cooldown:
-            self.angle = math.degrees(math.atan2(curr_enemy.position[1] - self.y, curr_enemy.position[0] - self.x))
-            self.last_angle = self.angle
+        self.play_animation()
+        if curr_enemy and pygame.time.get_ticks() - self.last_shot >= self.cooldown:
             self.last_shot = pygame.time.get_ticks()
             curr_enemy.HP -= self.damage
     
-        base_image = self.animation_list[self.frame]
-        rotatedImage = pygame.transform.rotate(base_image, -self.angle - 90)
-        self.image = rotatedImage
-        self.rect = self.image.get_rect(center = (self.x, self.y))
-        self.play_animation()
-        
+       
            
     def upgrade(self, current_gold):
         if self.level < len(TOWER_DATA) - 1 and current_gold >= self.upgrade_cost:
@@ -108,7 +105,21 @@ class Tower(pygame.sprite.Sprite):
 
             
     def draw(self, surface):
+        
         surface.blit(self.image, self.rect)
+       
+        if 0 <= self.frame < len(self.animation_list):
+            current_weapon_frame = self.animation_list[self.frame]
+            rotated_weapon_image = pygame.transform.rotate(current_weapon_frame, self.angle - 90) 
+            rotated_rect = rotated_weapon_image.get_rect()
+
+            rotated_rect.center = self.rect.center
+
+          
+            surface.blit(rotated_weapon_image, (rotated_rect.topleft[0] + 3, rotated_rect.topright[1] - 11 ))
+                     
+
+
         if self.is_selected:
             pygame.draw.circle(self.range_image, (211, 211, 211, 30), (self.next_range, self.next_range), self.next_range)
             pygame.draw.circle(self.range_image, (211, 211, 211, 80), (self.next_range, self.next_range), self.range)

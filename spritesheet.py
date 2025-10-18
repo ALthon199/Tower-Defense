@@ -21,6 +21,7 @@ class Enemy_SpriteSheet():
     def animationList(self, frames, rows):
         directions = ['up', 'left', 'down', 'right']
         animation = {}
+        
         for row in range(rows):
             direction = directions[row]
             animation[direction] = []
