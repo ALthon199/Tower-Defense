@@ -1,13 +1,16 @@
 import pygame
 import sys # Needed for sys.exit()
 import json
-from enemy import Enemy
+from Enemy_Classes.enemy import Enemy
 from world import World
 import constants as c
-from tower import Tower
+from Tower_Classes.towerold import Tower
 from button import Button
-from tower_data import TOWER_DATA
-from wave_data import WAVE_DATA
+from Tower_Classes.tower_data import TOWER_DATA
+from Enemy_Classes.wave_data import WAVE_DATA
+from Tower_Classes.archer_tower import Archer_Tower
+from Tower_Classes.zap_tower import Zap_Tower
+import functions
 class Game():
     def __init__(self):
         pygame.init()
@@ -17,7 +20,7 @@ class Game():
 
         #GAME VARIBLES
         self.placing_turrets = False
-        self.current_gold = c.COINS
+        self.current_gold = c.COINS + 10000000
         self.current_lives = c.LIVES
         self.wave = 1
         
@@ -74,17 +77,26 @@ class Game():
         pygame.quit()
 
     def draw(self):
-        
+     
         self.screen.fill('white')
-            
-           
-        if self.turret_button.draw(self.screen):
+        if self.archer_button.draw(self.screen):
             
             self.placing_turrets = True
+            self.cursor_tower = self.archer_base_image[0]
 
+        elif self.zap_button.draw(self.screen):
+            self.placing_turrets = True
+            self.cursor_tower = self.zap_base_image[0]
+    
         self.world.draw(self.screen)
-        
         self.enemy_group.draw(self.screen)
+
+        
+        for projectile in self.projectile_group:
+            projectile.draw(self.screen)
+        
+
+
 
         for tower in self.tower_group:
             tower.draw(self.screen)
@@ -95,11 +107,11 @@ class Game():
                 self.current_gold = tower.upgrade(self.current_gold)
                     
 
-        if self.placing_turrets:
+        if self.placing_turrets != False:
             
             # SHOW TURRET
             cursor_rect = self.cursor_tower.get_rect()
-           
+
             cursor_rect.center = self.mouse_pos
             
             self.clear_select()
@@ -107,23 +119,14 @@ class Game():
             # Check Bounds
             if self.mouse_pos[0] <= c.SCREEN_WIDTH:
                 
-                # Check if tile is occupied
-                mouse_tileX = self.mouse_pos[0] // c.TILE_SIZE
-                mouse_tileY = self.mouse_pos[1] // c.TILE_SIZE
-                space = True
-                
-                for tower in self.tower_group:
-                    if mouse_tileX == tower.tile_X and mouse_tileY == tower.tile_Y:
-                        
-                        space = False
-                        pygame.draw.circle(self.cursor_surface, (255, 0, 0, 40), (self.RANGE, self.RANGE), self.RANGE)      
-                        self.cursor_surface.blit(self.cursor_tower, (self.RANGE//2 + cursor_rect.width//2,self.RANGE//2 + cursor_rect.width//2))
-                        self.screen.blit(self.cursor_surface, (self.mouse_pos[0] - self.RANGE , self.mouse_pos[1]- self.RANGE))
-                        
+                if not (self.can_build()):
+                    pygame.draw.circle(self.cursor_surface, (255, 0, 0, 40), (self.RANGE, self.RANGE), self.RANGE)      
+                    self.cursor_surface.blit(self.cursor_tower, (self.RANGE - cursor_rect.width//2,self.RANGE - cursor_rect.width//2))
+                    self.screen.blit(self.cursor_surface, (self.mouse_pos[0] - self.RANGE, self.mouse_pos[1] - self.RANGE))
 
-                if space:
+                else:
                     pygame.draw.circle(self.cursor_surface, (211, 211, 211, 40), (self.RANGE, self.RANGE), self.RANGE)
-                    self.cursor_surface.blit(self.cursor_tower, (self.RANGE//2 + cursor_rect.width//2,self.RANGE//2 + cursor_rect.width//2))
+                    self.cursor_surface.blit(self.cursor_tower, (self.RANGE - cursor_rect.width//2,self.RANGE - cursor_rect.width//2))
                     self.screen.blit(self.cursor_surface, (self.mouse_pos[0] - self.RANGE , self.mouse_pos[1]- self.RANGE))
 
 
@@ -132,6 +135,7 @@ class Game():
             if self.cancel_button.draw(self.screen):
                 
                 self.placing_turrets = False
+        
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -142,7 +146,7 @@ class Game():
                     
                     #Check if mouse in game area
                     if self.mouse_pos[0] < c.SCREEN_WIDTH and self.mouse_pos[1] < c.SCREEN_HEIGHT and self.placing_turrets:
-                        self.create_tower(self.mouse_pos)
+                        self.create_tower(self.mouse_pos, self.cursor_tower)
                     else:
                         self.select_tower(self.mouse_pos)
 
@@ -157,6 +161,7 @@ class Game():
             
         self.tower_group.update(self.enemy_group)
         
+        self.projectile_group.update(self.enemy_group)
             
         if len(self.enemy_group) == 0 and self.wave_start_time == 0:
             
@@ -198,27 +203,36 @@ class Game():
                 self.wave_start_time = 0
                 self.current_wave = WAVE_DATA.get(f'wave_{self.wave}')
                 self.spawn_counter = {}
-    def create_tower(self, mouse_pos):
+
+
+    def can_build(self):
+        mouse_tileX = self.mouse_pos[0] // c.TILE_SIZE
+        mouse_tileY = self.mouse_pos[1] // c.TILE_SIZE
+
+        occupied = False
+        is_buildable = functions.checkBorder(self.world.tile_map, mouse_tileX, mouse_tileY)
+        
+            
+        for tower in self.tower_group:
+            if ( tower.tile_X - 2 <= mouse_tileX <= tower.tile_X + 2 and tower.tile_Y-2<=mouse_tileY <= tower.tile_Y + 2):
+                occupied = True
+        return not (occupied or not is_buildable)
+        
+    def create_tower(self, mouse_pos, cursor_tower):
         
         mouse_tileX = mouse_pos[0] // c.TILE_SIZE 
         mouse_tileY = mouse_pos[1] // c.TILE_SIZE 
-        #Calculate tile for tower
-        tile = mouse_tileX + mouse_tileY * c.COLS
         
-        if self.world.tile_map[tile] == 18:
-            space = True
-            
-            #Check if turrent is already placed
-            for tower in self.tower_group:
-                if mouse_tileX == tower.tile_X and mouse_tileY == tower.tile_Y:
-                    space = False
                     
                 
-            if space and self.current_gold >= c.TURRET_COST:
-                new_tower = Tower(self.turretbase_image, self.turret_animations, 12, mouse_tileX, mouse_tileY,  c.TURRET_COST)
-                
-                self.tower_group.add(new_tower)
-                self.current_gold -= new_tower.cost
+        if (self.can_build()) and self.current_gold >= c.TURRET_COST and self.cursor_tower == self.archer_base_image[0]:
+            new_tower = Archer_Tower(mouse_tileX, mouse_tileY, self.projectile_group)
+            self.tower_group.add(new_tower)
+            self.current_gold -= new_tower.cost
+        elif (self.can_build()) and self.current_gold >= c.TURRET_COST and self.cursor_tower == self.zap_base_image[0]:
+            new_tower = Zap_Tower(mouse_tileX, mouse_tileY, self.projectile_group)
+            self.tower_group.add(new_tower)
+            self.current_gold -= new_tower.cost
 
     def select_tower(self,mouse_pos):
         
@@ -239,22 +253,63 @@ class Game():
     
 
     def load_assets(self):
-        self.cursor_tower = pygame.image.load('assets/turret/archer_1.png').convert_alpha()
+        # Dictionary to find which tower is being placed
+        self.towers = {}
+    
+        self.cursor_tower = pygame.image.load('assets/turret/archer/archer_1.png').convert_alpha()
         self.cursor_tower = pygame.transform.scale(self.cursor_tower, (48, 64))
 
-        self.turretbase_image = []
-        for i in range(1, len(TOWER_DATA)):
-            current_image = pygame.image.load(f'assets/turret/archer_{i}.png').convert_alpha()
-            current_image = pygame.transform.scale(self.cursor_tower, (48, 64))
-            self.turretbase_image.append(current_image)
-        self.turret_animations = []
-        for i in range(1, len(TOWER_DATA) + 1):
-            current_animation = pygame.image.load(f'assets/turret/archer_weapon0{i}.png').convert_alpha()
-            self.turret_animations.append(current_animation)
 
+
+        ## Archer Tower
+        self.archer_base_image = []
+        for i in range(1, len(TOWER_DATA) + 1):
+            current_image = pygame.image.load(f'assets/turret/archer/archer_{i}.png').convert_alpha()
+            current_image = pygame.transform.scale(current_image, (48, 64))
+            self.archer_base_image.append(current_image)
+        # Shooting 
+        self.archer_animations = []
+        for i in range(1, len(TOWER_DATA) + 1):
+            current_animation = pygame.image.load(f'assets/turret/archer/archer_weapon0{i}.png').convert_alpha()
+            self.archer_animations.append(current_animation)
+        # Arrow
+        self.arrow_animation = []
+        for i in range(1, len(TOWER_DATA) + 1):
+            archer_animation = pygame.image.load(f'assets/turret/archer/archer_animation0{i}.png').convert_alpha()
+            self.arrow_animation.append(archer_animation)
+        
+        self.towers[self.archer_base_image[0]] = [self.archer_base_image, self.archer_animations]
+        
+        # Zap Tower
+
+        self.zap_base_image = []
+        for i in range(1, len(TOWER_DATA) + 1):
+            current_image = pygame.image.load(f'assets/turret/zap/zap_base_0{i}.png')
+            current_image = pygame.transform.scale(current_image, (48, 64))
+            self.zap_base_image.append(current_image)
+
+         # Shooting 
+        self.zap_animations = []
+        for i in range(1, len(TOWER_DATA) + 1):
+            current_animation = pygame.image.load(f'assets/turret/zap/zap_weapon_0{i}.png').convert_alpha()
+            self.zap_animations.append(current_animation)
+
+        # Lightning
+        self.lightning_animation = []
+        for i in range(1, len(TOWER_DATA) + 1):
+            lightning_animation = pygame.image.load(f'assets/turret/zap/zap_projectile_0{i}.png').convert_alpha()
+            self.lightning_animation.append(lightning_animation)
+        
+        self.towers[self.zap_base_image[0]] = [self.zap_base_image, self.zap_animations]
+       
+
+
+
+
+        # General Game Assets
         self.coin = pygame.image.load('assets/icons/coins.png').convert_alpha()
         self.coin = pygame.transform.scale(self.coin, (40, 40))
-        self.buy_turret_image = pygame.image.load('assets/buttons/buy_turret.png').convert_alpha()
+        self.buy_turret_image = self.cursor_tower
         self.cancel_buy_image = pygame.image.load('assets/buttons/cancel.png').convert_alpha()
         self.upgrade_image = pygame.image.load('assets/buttons/upgrade.png').convert_alpha()
         self.upgrade_image = pygame.transform.scale(self.upgrade_image, (50, 50))
@@ -265,8 +320,9 @@ class Game():
         self.map1_image = pygame.image.load('assets/maps/map1.png') .convert_alpha()
 
     def create_buttons(self):
-        self.turret_button = Button(c.SCREEN_WIDTH + 10, 120, self.buy_turret_image, single_click= True)
-        self.cancel_button = Button(c.SCREEN_WIDTH + 10, 180, self.cancel_buy_image, single_click= True)
+        self.archer_button = Button(c.SCREEN_WIDTH + 10, 120, self.archer_base_image[0], single_click= True)
+        self.zap_button = Button(c.SCREEN_WIDTH + 100, 120, self.zap_base_image[0], single_click= True)
+        self.cancel_button = Button(c.SCREEN_WIDTH + 10, 300, self.cancel_buy_image, single_click= True)
         self.upgrade_button = Button(c.SCREEN_WIDTH + 10, 600, self.upgrade_image, single_click = True)
 
     def create_world(self):
@@ -280,6 +336,7 @@ class Game():
     def create_groups(self):
         self.enemy_group = pygame.sprite.Group()
         self.tower_group = pygame.sprite.Group()
+        self.projectile_group = pygame.sprite.Group()
 
     
 

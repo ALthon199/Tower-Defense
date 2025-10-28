@@ -21,8 +21,12 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image = self.animation[self.direction][self.frame]
         self.rect = self.image.get_rect()
+        
         self.rect.topleft = self.position
 
+
+        self.hitbox = pygame.Rect(0,0,60,60)
+        self.hitbox.center = self.position
         self.time = 0
         self.HP = HP
         self.worth = value

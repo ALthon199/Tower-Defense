@@ -1,0 +1,35 @@
+{
+"frames": {
+	"Tower 02 - Level 02 - Projectile_01.png": {
+		"frame": {"x":18, "y":0, "w":15, "h":14},
+		"spriteSourceSize": {"x":0,"y":0,"w":15,"h":14},
+		"sourceSize": {"w":15,"h":14}
+	},
+	"Tower 02 - Level 02 - Projectile_02.png": {
+		"frame": {"x":16, "y":15, "w":15, "h":14},
+		"spriteSourceSize": {"x":0,"y":0,"w":15,"h":14},
+		"sourceSize": {"w":15,"h":14}
+	},
+	"Tower 02 - Level 02 - Projectile_03.png": {
+		"frame": {"x":0, "y":0, "w":17, "h":14},
+		"spriteSourceSize": {"x":0,"y":0,"w":17,"h":14},
+		"sourceSize": {"w":17,"h":14}
+	},
+	"Tower 02 - Level 02 - Projectile_04.png": {
+		"frame": {"x":0, "y":15, "w":15, "h":14},
+		"spriteSourceSize": {"x":0,"y":0,"w":15,"h":14},
+		"sourceSize": {"w":15,"h":14}
+	},
+	"Tower 02 - Level 02 - Projectile_05.png": {
+		"frame": {"x":0, "y":30, "w":15, "h":14},
+		"spriteSourceSize": {"x":0,"y":0,"w":15,"h":14},
+		"sourceSize": {"w":15,"h":14}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 34, "h": 45},
+	"scale": "1"
+}
+}

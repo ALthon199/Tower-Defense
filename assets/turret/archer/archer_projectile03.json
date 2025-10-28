@@ -1,0 +1,25 @@
+{
+"frames": {
+	"0": {
+		"frame": {"x":0, "y":0, "w":22, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":22,"h":40},
+		"sourceSize": {"w":22,"h":40}
+	},
+	"1": {
+		"frame": {"x":23, "y":0, "w":20, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":20,"h":40},
+		"sourceSize": {"w":20,"h":40}
+	},
+	"2": {
+		"frame": {"x":44, "y":0, "w":18, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":18,"h":40},
+		"sourceSize": {"w":18,"h":40}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 63, "h": 41},
+	"scale": "1"
+}
+}

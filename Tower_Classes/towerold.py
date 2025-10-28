@@ -1,27 +1,34 @@
 import pygame 
 import math
 import constants as c
-from tower_data import TOWER_DATA
+from Tower_Classes.projectile import Projectile
+from Tower_Classes.arrow import Arrow
+from Tower_Classes.tower_data import TOWER_DATA
 class Tower(pygame.sprite.Sprite):
-    def __init__(self, base_images, sprite_sheet, projectile, tile_X, tile_Y, cost):
+    def __init__(self, base_images, animation_list, tile_X, tile_Y, cost, projectile_group):
         pygame.sprite.Sprite.__init__(self)
-        ## Spritesheet
+        
+       
         self.level = 0
         self.base_images = base_images
-        self.sprite_sheet = sprite_sheet
-        self.projectile = projectile
+        
+        ## Firing ANimation
+        self.sprite_sheet = animation_list
         self.animation_list = self.load_frames()
+       
+        self.projectile_group = projectile_group
+        
         
         #Calculate center
         self.x  = tile_X * c.TILE_SIZE + 0.5 * c.TILE_SIZE
         self.y = tile_Y * c.TILE_SIZE + 0.5 * c.TILE_SIZE
-
+        
 
         #Animation
         self.last_update = pygame.time.get_ticks()
         self.last_shot = 0
         
-    
+
         #Stats
         self.range = TOWER_DATA[self.level].get('Range')
         self.cooldown = TOWER_DATA[self.level].get('Cooldown')
@@ -38,8 +45,9 @@ class Tower(pygame.sprite.Sprite):
         self.range_image = pygame.Surface((self.next_range * 2, self.next_range * 2), pygame.SRCALPHA)
 
         self.image = base_images[self.level]
-        
         self.weapon_image = self.animation_list[self.frame]
+        
+       
         self.tile_X = tile_X
         self.tile_Y = tile_Y
         self.rect = self.image.get_rect()
@@ -61,6 +69,7 @@ class Tower(pygame.sprite.Sprite):
     def update(self, enemy_group):
         curr_enemy = None
         for enemy in enemy_group:
+            
             target_pos = (enemy.position[0], enemy.position[1])
             if self.distance(target_pos) <= self.range:
                 curr_enemy = enemy
@@ -69,18 +78,20 @@ class Tower(pygame.sprite.Sprite):
 
         if curr_enemy == None:
             return
-
         else:
+            
             # Calculate angle towards the current enemy
             delta_y = curr_enemy.position[1] - self.y
             delta_x = curr_enemy.position[0]- self.x
+           
             
             self.angle = math.degrees(math.atan2(-delta_y, delta_x))
                 
-        self.play_animation()
+        self.play_animation(curr_enemy)
         if curr_enemy and pygame.time.get_ticks() - self.last_shot >= self.cooldown:
             self.last_shot = pygame.time.get_ticks()
-            curr_enemy.HP -= self.damage
+           
+            
     
        
            
@@ -89,15 +100,18 @@ class Tower(pygame.sprite.Sprite):
             current_gold = current_gold - self.upgrade_cost
             self.level += 1   
             self.range = TOWER_DATA[self.level].get('Range')
+
             if self.level == len(TOWER_DATA) - 1:
                 self.next_range = TOWER_DATA[self.level].get('Range', None)
             else:
                 self.next_range = TOWER_DATA[self.level+1].get('Range', None)
+               
             self.range_image = pygame.Surface((self.next_range * 2, self.next_range * 2), pygame.SRCALPHA) 
             self.cooldown = TOWER_DATA[self.level].get('Cooldown')
             self.damage = TOWER_DATA[self.level].get('Damage')
             self.upgrade_cost = TOWER_DATA[self.level].get('Upgrade')
             self.animation_list = self.load_frames()
+            self.image = self.base_images[self.level]
         
         return current_gold
             
@@ -105,9 +119,12 @@ class Tower(pygame.sprite.Sprite):
 
             
     def draw(self, surface):
-        
+        for image in self.base_images:
+            surface.blit(image, self.rect)
         surface.blit(self.image, self.rect)
-       
+
+
+
         if 0 <= self.frame < len(self.animation_list):
             current_weapon_frame = self.animation_list[self.frame]
             rotated_weapon_image = pygame.transform.rotate(current_weapon_frame, self.angle - 90) 
@@ -133,13 +150,15 @@ class Tower(pygame.sprite.Sprite):
 
     
        
-    def play_animation(self):
+    def play_animation(self, curr_enemy):
         # check time
         current_time = pygame.time.get_ticks()
         if current_time - self.last_update >= c.ANIMATION_DELAY:
             self.frame += 1
             self.last_update = current_time
             if self.frame >= c.ANIMATION_FRAMES:
+                new_projectile = Arrow(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (curr_enemy.position))
+                self.projectile_group.add(new_projectile)
                 self.frame = 0
                 
             

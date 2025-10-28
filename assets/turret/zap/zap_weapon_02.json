@@ -1,0 +1,175 @@
+{
+"frames": {
+	"Tower 02 - Level 02 - Weapon_01.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_02.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_03.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_04.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_05.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_06.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_07.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_08.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_09.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_10.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_11.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_12.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_13.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_14.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_15.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_16.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_17.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_18.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_19.png": {
+		"frame": {"x":137, "y":86, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_20.png": {
+		"frame": {"x":106, "y":41, "w":31, "h":44},
+		"spriteSourceSize": {"x":0,"y":0,"w":31,"h":44},
+		"sourceSize": {"w":31,"h":44}
+	},
+	"Tower 02 - Level 02 - Weapon_21.png": {
+		"frame": {"x":71, "y":88, "w":32, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":40},
+		"sourceSize": {"w":32,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_22.png": {
+		"frame": {"x":0, "y":0, "w":35, "h":44},
+		"spriteSourceSize": {"x":0,"y":0,"w":35,"h":44},
+		"sourceSize": {"w":35,"h":44}
+	},
+	"Tower 02 - Level 02 - Weapon_23.png": {
+		"frame": {"x":36, "y":123, "w":34, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":34,"h":40},
+		"sourceSize": {"w":34,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_24.png": {
+		"frame": {"x":36, "y":82, "w":34, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":34,"h":40},
+		"sourceSize": {"w":34,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_25.png": {
+		"frame": {"x":0, "y":86, "w":35, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":35,"h":40},
+		"sourceSize": {"w":35,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_26.png": {
+		"frame": {"x":36, "y":0, "w":35, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":35,"h":40},
+		"sourceSize": {"w":35,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_27.png": {
+		"frame": {"x":0, "y":45, "w":35, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":35,"h":40},
+		"sourceSize": {"w":35,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_28.png": {
+		"frame": {"x":36, "y":41, "w":34, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":34,"h":40},
+		"sourceSize": {"w":34,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_29.png": {
+		"frame": {"x":71, "y":41, "w":34, "h":46},
+		"spriteSourceSize": {"x":0,"y":0,"w":34,"h":46},
+		"sourceSize": {"w":34,"h":46}
+	},
+	"Tower 02 - Level 02 - Weapon_30.png": {
+		"frame": {"x":72, "y":0, "w":34, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":34,"h":40},
+		"sourceSize": {"w":34,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_31.png": {
+		"frame": {"x":104, "y":88, "w":32, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":40},
+		"sourceSize": {"w":32,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_32.png": {
+		"frame": {"x":107, "y":0, "w":30, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":30,"h":40},
+		"sourceSize": {"w":30,"h":40}
+	},
+	"Tower 02 - Level 02 - Weapon_33.png": {
+		"frame": {"x":138, "y":0, "w":28, "h":40},
+		"spriteSourceSize": {"x":0,"y":0,"w":28,"h":40},
+		"sourceSize": {"w":28,"h":40}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 167, "h": 164},
+	"scale": "1"
+}
+}
