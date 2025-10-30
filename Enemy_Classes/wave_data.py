@@ -4,7 +4,7 @@ WAVE_DATA = {
     "duration": 15,
     "reward": 100,
     "spawn_events": [
-      { "mob_type": "zombie", "count": 5, "spawn_delay": 2.0, "start_time": 0 }
+      { "mob_type": "zombie", "count": 30, "spawn_delay": 0.1, "start_time": 0 }
     ]
   },
   "wave_2": {

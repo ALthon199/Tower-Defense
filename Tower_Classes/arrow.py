@@ -41,7 +41,31 @@ class Arrow(Projectile):
             start = 0 + x * size
             frame = impact_sheet.subsurface(start, 0, size, size)
             Arrow.ARROW_IMPACT.append(frame)
+    def update(self, enemy_group):
 
+        if self.has_hit:
+            if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
+                self.last_frame = pygame.time.get_ticks()
+                self.frame += 1
+                if self.frame >= len(self.impact_sheet):
+                    self.kill()
+            return
+
+        for enemy in enemy_group:
+            if self.rect.colliderect(enemy.rect):
+                enemy.HP -= self.damage
+                self.has_hit = True
+                self.frame = 0
+                self.rect.center = enemy.position
+                return
+
+        self.position += self.movement
+
+        if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
+            self.last_frame = pygame.time.get_ticks()
+            self.frame += 1
+            if self.frame >= len(self.animation_list):
+                self.frame = 0
     def process(self):
         current_sheet = self.current_sprite
        

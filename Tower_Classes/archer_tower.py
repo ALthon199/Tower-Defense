@@ -1,14 +1,14 @@
 import pygame
 import constants as c
+import math
 from Tower_Classes.tower import Tower
 from Tower_Classes.tower_data import TOWER_DATA
+from Tower_Classes.arrow import Arrow
 
 class Archer_Tower(Tower):
     BASE_IMAGES = []
     SPRITE_SHEET = []
-    
-   
-
+     
 
     def __init__(self, tileX, tileY, projectile_group):
         if Archer_Tower.BASE_IMAGES == []:
@@ -53,7 +53,43 @@ class Archer_Tower(Tower):
         for i in range(1, len(TOWER_DATA) + 1):
             current_animation = pygame.image.load(f'assets/turret/archer/archer_weapon0{i}.png').convert_alpha()
             Archer_Tower.SPRITE_SHEET.append(current_animation)
-        # Arrow
+    def update(self, enemy_group):
+        curr_enemy = None
+        for enemy in enemy_group:
+            
+            target_pos = (enemy.position[0], enemy.position[1])
+            if self.distance(target_pos) <= self.range:
+                curr_enemy = enemy
+                
+                break
+
+        if curr_enemy == None:
+            self.frame = 0
+            return
+        else:
+            
+            # Calculate angle towards the current enemy
+            delta_y = curr_enemy.position[1] - self.y
+            delta_x = curr_enemy.position[0]- self.x
+           
+            
+            self.angle = math.degrees(math.atan2(-delta_y, delta_x))
+                
+        self.play_animation(curr_enemy)
+
+
+    
+       
+    def play_animation(self, curr_enemy):
+        # check time
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_update >= self.cooldown // (self.animation_frames*3) :
+            self.frame += 1
+            self.last_update = current_time
+            if self.frame >= self.animation_frames:
+                new_projectile = Arrow(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (curr_enemy.position))
+                self.projectile_group.add(new_projectile)
+                self.frame = 0
         
         
         

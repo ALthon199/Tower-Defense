@@ -35,6 +35,7 @@ class Tower(pygame.sprite.Sprite):
         
 
         #image
+        self._layer = tile_Y
         self.angle = 0
         self.frame = 0
         self.is_selected = False
@@ -49,34 +50,31 @@ class Tower(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
 
+    def distance(self, position):
+        return ((self.x - position[0]) ** 2 + (self.y - position[1]) ** 2) ** 0.5
+
    
+    def draw(self, surface):
+        if self.is_selected:
+            pygame.draw.circle(self.range_image, (211, 211, 211, 30), (self.next_range, self.next_range), self.next_range)
+            pygame.draw.circle(self.range_image, (211, 211, 211, 80), (self.next_range, self.next_range), self.range)
+            surface.blit(self.range_image, (self.x - self.next_range , self.y - self.next_range))
+            pygame.draw.rect(surface, (0, 100, 0), (c.SCREEN_WIDTH, 0, c.SIDE_PANEL, c.SCREEN_HEIGHT))
 
-    def update(self, enemy_group):
-        curr_enemy = None
-        for enemy in enemy_group:
-            
-            target_pos = (enemy.position[0], enemy.position[1])
-            if self.distance(target_pos) <= self.range:
-                curr_enemy = enemy
-                
-                break
+        surface.blit(self.image, self.rect)
 
-        if curr_enemy == None:
-            self.frame = 0
-            return
-        else:
+        if 0 <= self.frame < len(self.animation_list):
+            current_weapon_frame = self.animation_list[self.frame]
+            rotated_weapon_image = pygame.transform.rotate(current_weapon_frame, self.angle - 90) 
+            rotated_rect = rotated_weapon_image.get_rect()
+
+            rotated_rect.center = self.rect.center
+
             
-            # Calculate angle towards the current enemy
-            delta_y = curr_enemy.position[1] - self.y
-            delta_x = curr_enemy.position[0]- self.x
-           
-            
-            self.angle = math.degrees(math.atan2(-delta_y, delta_x))
-                
-        self.play_animation(curr_enemy)
-        
-            
-    
+            surface.blit(rotated_weapon_image, (rotated_rect.topleft[0] + self.weapon_offset[0], rotated_rect.topright[1] + self.weapon_offset[1] ))
+                        
+
+
        
            
     def upgrade(self, current_gold):
@@ -101,47 +99,7 @@ class Tower(pygame.sprite.Sprite):
         return current_gold
             
 
-
-            
-    def draw(self, surface):
-      
-        surface.blit(self.image, self.rect)
-
-        if 0 <= self.frame < len(self.animation_list):
-            current_weapon_frame = self.animation_list[self.frame]
-            rotated_weapon_image = pygame.transform.rotate(current_weapon_frame, self.angle - 90) 
-            rotated_rect = rotated_weapon_image.get_rect()
-
-            rotated_rect.center = self.rect.center
-
-          
-            surface.blit(rotated_weapon_image, (rotated_rect.topleft[0] + self.weapon_offset[0], rotated_rect.topright[1] + self.weapon_offset[1] ))
-                     
-
-
-        if self.is_selected:
-            pygame.draw.circle(self.range_image, (211, 211, 211, 30), (self.next_range, self.next_range), self.next_range)
-            pygame.draw.circle(self.range_image, (211, 211, 211, 80), (self.next_range, self.next_range), self.range)
-            surface.blit(self.range_image, (self.x - self.next_range , self.y - self.next_range))
-            pygame.draw.rect(surface, (0, 100, 0), (c.SCREEN_WIDTH, 0, c.SIDE_PANEL, c.SCREEN_HEIGHT))
-        
-       
-
-    def distance(self, position):
-        return ((self.x - position[0]) ** 2 + (self.y - position[1]) ** 2) ** 0.5
-
-    
-       
-    def play_animation(self, curr_enemy):
-        # check time
-        current_time = pygame.time.get_ticks()
-        if current_time - self.last_update >= self.cooldown // (self.animation_frames*3) :
-            self.frame += 1
-            self.last_update = current_time
-            if self.frame >= self.animation_frames:
-                if self.type == 'archer':
-                    new_projectile = Arrow(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (curr_enemy.position))
-                    self.projectile_group.add(new_projectile)
-                    self.frame = 0
+ 
+  
                 
             

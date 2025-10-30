@@ -1,8 +1,10 @@
 import pygame
 import constants as c
 import json
+import math
 from Tower_Classes.tower import Tower
-from Tower_Classes.tower_data import TOWER_DATA
+from Tower_Classes.tower_data import ZAP_DATA
+from Tower_Classes.lightning import Lightning
 class Zap_Tower(Tower):
    
     BASE_IMAGES = []
@@ -15,7 +17,7 @@ class Zap_Tower(Tower):
         if Zap_Tower.BASE_IMAGES == []:
             self.load_assets()
         animation_list = self.process()
-        weapon_offset = (0, -11)
+        weapon_offset = (0, -25)
         super().__init__('archer',
             Zap_Tower.BASE_IMAGES, 
             animation_list,
@@ -23,7 +25,7 @@ class Zap_Tower(Tower):
             tileY, 
             c.TURRET_COST, # Use the standard COST variable
             projectile_group, 
-            TOWER_DATA,
+            ZAP_DATA,
             weapon_offset
         )
         
@@ -31,7 +33,7 @@ class Zap_Tower(Tower):
 
     def process(self):
         all_animation = []
-        for i in range(len(TOWER_DATA)):
+        for i in range(len(ZAP_DATA)):
             current_sheet = Zap_Tower.SPRITE_SHEET[i]
             
             animation_data = Zap_Tower.SPRITE_SHEET_JSON[i]
@@ -43,27 +45,65 @@ class Zap_Tower(Tower):
                 width = animation_data['frames'][f'Tower 02 - Level {i+1:02d} - Weapon_{j+1:02d}.png']['frame']['w']
                 height = animation_data['frames'][f'Tower 02 - Level {i+1:02d} - Weapon_{j+1:02d}.png']['frame']['h']
                 frame = current_sheet.subsurface(startX, startY, width, height)
+                frame = pygame.transform.rotate(frame, 90)
                 animation_list.append(frame)
             all_animation.append(animation_list)
 
         return all_animation
 
     def load_assets(self):
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ZAP_DATA) + 1):
             current_image = pygame.image.load(f'assets/turret/zap/zap_base_0{i}.png')
             current_image = pygame.transform.scale(current_image, (48, 64))
             Zap_Tower.BASE_IMAGES.append(current_image)
 
          # Shooting 
         self.zap_animations = []
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ZAP_DATA) + 1):
             current_animation = pygame.image.load(f'assets/turret/zap/zap_weapon_0{i}.png').convert_alpha()
             
             Zap_Tower.SPRITE_SHEET.append(current_animation)
         
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ZAP_DATA) + 1):
             path = f'assets/turret/zap/zap_weapon_0{i}.json'
             with open(path) as file:
                 arrow_json = json.load(file) 
                 Zap_Tower.SPRITE_SHEET_JSON.append(arrow_json)
+       
+       
+
+    def distance(self, position):
+        return ((self.x - position[0]) ** 2 + (self.y - position[1]) ** 2) ** 0.5
+
+    def update(self, enemy_group):
+        curr_enemy = None
+        for enemy in enemy_group:
+            
+            target_pos = (enemy.position[0], enemy.position[1])
+            if self.distance(target_pos) <= self.range:
+                curr_enemy = enemy
+                
+                break
+
+        if curr_enemy == None:
+            self.frame = 0
+            return
+                
+        self.play_animation()
+       
+    def play_animation(self):
+        # check time
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_update >= self.cooldown // (self.animation_frames*3) :
+            self.frame += 1
+            self.last_update = current_time
+            if self.frame >= self.animation_frames:
+                ## Shoots 10 projectiles outward from center
+                projectile = ZAP_DATA[self.level]['Projectile']
+                for i in range(projectile):
+                    enemy_position_x = self.x + self.range * math.cos(math.radians(360 * (i)/projectile))
+                    enemy_position_y = self.y + self.range * math.sin(math.radians(360 * (i)/projectile))
+                    new_projectile = Lightning(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (enemy_position_x, enemy_position_y))
+                    self.projectile_group.add(new_projectile)
+                    self.frame = 0
  

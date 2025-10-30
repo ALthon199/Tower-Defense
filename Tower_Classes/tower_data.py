@@ -10,6 +10,17 @@ TOWER_DATA = [
 
 ]
 
+ZAP_DATA = [
+    # Base Tower
+    {"Range": 110, "Cooldown": 1400, "Damage": 1, "Projectile": 8, "Upgrade": 150},
+    
+    # Upgrade 1 (e.g., "Faster Shooting")
+    {"Range": 110, "Cooldown": 1100, "Damage": 1, "Projectile": 8, "Upgrade": 350},
+    
+    # Upgrade 2 (e.g., "More Tacks")
+    {"Range": 115, "Cooldown": 1100, "Damage": 1, "Projectile": 12, "Upgrade": None},
+]
+
 
 
 
