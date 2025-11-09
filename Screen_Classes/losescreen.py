@@ -3,8 +3,8 @@
 
 import constants as c
 import pygame
-from button import Button
-class HomeScreen():
+from World_Classes.button import Button
+class Lose_Screen():
     def __init__(self, screen, clock):
         self.screen = screen
         self.running = True
@@ -22,11 +22,10 @@ class HomeScreen():
                     return "quit"
 
             
-            self.screen.fill('green') 
-            self.screen.blit(self.title_image, self.title_rect)
+            
+            self.screen.blit(self.title_background, (0,0))
             if self.start_button.draw(self.screen):
-                self.running = False
-                return "start_game" 
+                return "home" 
 
 
             pygame.display.flip()
@@ -43,14 +42,12 @@ class HomeScreen():
         
     def load_assets(self):
         
-
         self.start_image = pygame.image.load('assets/buttons/start.png')
         self.start_image = pygame.transform.scale(self.start_image, (200,100))
-        self.start_hovered_image = pygame.image.load('assets/buttons/start recolor.png')
-        self.title_image = pygame.image.load('assets/buttons/exit.png')
-        self.title_image = pygame.transform.scale(self.title_image, (600, 200))
-        self.title_rect = self.title_image.get_rect()
-        self.title_rect = ((c.SCREEN_WIDTH + c.SIDE_PANEL) /2 -self.title_image.get_width()/2, 100)
+        self.start_hovered_image = pygame.image.load('assets/buttons/start recolor.png')\
+        
+        self.title_background = pygame.image.load('assets/images/background.png')
+        self.title_background = pygame.transform.scale(self.title_background, (c.SCREEN_WIDTH + c.SIDE_PANEL, c.SCREEN_HEIGHT))
        
 
 

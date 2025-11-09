@@ -21,32 +21,16 @@ class Lightning(Projectile):
 
         
     def update(self, enemy_group):
-        new_position = self.position + self.movement
-        if abs(self.original_position.distance_to(self.position)) > self.maxRange:
-            self.kill()
+        self.checkBounds()
         if self.has_hit:
-            self.has_hit = True
-            if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
-                self.last_frame = pygame.time.get_ticks()
-                self.frame += 1
-                if self.frame >= len(self.impact_sheet):
-                    self.kill()
+            super().hit_animation()
+            return 
+        if super().update_enemy(enemy_group):
             return
-
-        for enemy in enemy_group:
-            if self.rect.colliderect(enemy.rect):
-                enemy.HP -= self.damage
-                self.has_hit = True
-                self.frame = 0
-                self.rect.center = enemy.position
-                return
-        self.position = new_position
+        super().update_movement()
         
-        if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
-            self.last_frame = pygame.time.get_ticks()
-            self.frame += 1
-            if self.frame >= len(self.animation_list):
-                self.frame = 0
+      
+        
 
     def load_assets(self):
         
@@ -74,6 +58,11 @@ class Lightning(Projectile):
                 full_impact.append(frame)
             Lightning.LIGHTNING_IMPACT.append(full_impact)
 
+
+    def checkBounds(self):
+        if abs(self.original_position.distance_to(self.position)) > self.maxRange:
+            self.kill()
+       
     def process(self):
         current_sheet = self.current_sprite
        

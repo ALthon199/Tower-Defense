@@ -23,7 +23,6 @@ class Zap_Tower(Tower):
             animation_list,
             tileX, 
             tileY, 
-            c.TURRET_COST, # Use the standard COST variable
             projectile_group, 
             ZAP_DATA,
             weapon_offset
@@ -89,21 +88,17 @@ class Zap_Tower(Tower):
             self.frame = 0
             return
                 
-        self.play_animation()
+        self.play_animation(enemy)
        
-    def play_animation(self):
+    def play_animation(self, enemy):
         # check time
         current_time = pygame.time.get_ticks()
         if current_time - self.last_update >= self.cooldown // (self.animation_frames*3) :
             self.frame += 1
             self.last_update = current_time
             if self.frame >= self.animation_frames:
-                ## Shoots 10 projectiles outward from center
-                projectile = ZAP_DATA[self.level]['Projectile']
-                for i in range(projectile):
-                    enemy_position_x = self.x + self.range * math.cos(math.radians(360 * (i)/projectile))
-                    enemy_position_y = self.y + self.range * math.sin(math.radians(360 * (i)/projectile))
-                    new_projectile = Lightning(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (enemy_position_x, enemy_position_y))
-                    self.projectile_group.add(new_projectile)
-                    self.frame = 0
+                enemy_position = enemy.position
+                new_projectile = Lightning(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (enemy_position))
+                self.projectile_group.add(new_projectile)
+                self.frame = 0
  

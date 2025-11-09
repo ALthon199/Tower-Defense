@@ -35,6 +35,33 @@ class Projectile(pygame.sprite.Sprite):
             self.rect = rotated_image.get_rect()
             self.rect.center = self.position
             surface.blit(rotated_image, (self.rect))
-            
-        
 
+    def update_movement(self):
+        self.position = self.position + self.movement
+        if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
+            self.last_frame = pygame.time.get_ticks()
+            self.frame += 1
+            if self.frame >= len(self.animation_list):
+                self.frame = 0        
+
+    def update_enemy(self, enemy_group):
+        for enemy in enemy_group:
+            if self.rect.colliderect(enemy.hitbox):
+                enemy.current_HP -= self.damage
+                self.has_hit = True
+                self.frame = 0
+                self.rect.center = enemy.position
+                return True
+        return False
+        
+        
+       
+               
+    def hit_animation(self):
+        if self.has_hit:
+            if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
+                self.last_frame = pygame.time.get_ticks()
+                self.frame += 1
+                if self.frame >= len(self.impact_sheet):
+                    self.kill()
+            

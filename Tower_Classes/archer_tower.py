@@ -2,13 +2,13 @@ import pygame
 import constants as c
 import math
 from Tower_Classes.tower import Tower
-from Tower_Classes.tower_data import TOWER_DATA
+from Tower_Classes.tower_data import ARCHER_DATA
 from Tower_Classes.arrow import Arrow
 
 class Archer_Tower(Tower):
     BASE_IMAGES = []
     SPRITE_SHEET = []
-     
+    ANIMATION_FRAMES = 6
 
     def __init__(self, tileX, tileY, projectile_group):
         if Archer_Tower.BASE_IMAGES == []:
@@ -20,9 +20,8 @@ class Archer_Tower(Tower):
             animation_list,
             tileX, 
             tileY, 
-            c.TURRET_COST, # Use the standard COST variable
             projectile_group, 
-            TOWER_DATA,
+            ARCHER_DATA,
             weapon_offset,
          
         )
@@ -35,7 +34,7 @@ class Archer_Tower(Tower):
             size = current_sheet.get_height()
             
             current_list = []
-            for x in range(c.ANIMATION_FRAMES):
+            for x in range(Archer_Tower.ANIMATION_FRAMES):
                 start = 0 + x * size
                 frame = current_sheet.subsurface(start, 0, size, size)
                 current_list.append(frame)
@@ -44,13 +43,13 @@ class Archer_Tower(Tower):
     
     def load_assets(self):
         # Base
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ARCHER_DATA) + 1):
             current_image = pygame.image.load(f'assets/turret/archer/archer_{i}.png').convert_alpha()
             current_image = pygame.transform.scale(current_image, (48, 64))
             Archer_Tower.BASE_IMAGES.append(current_image)
         # Shooting 
         
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ARCHER_DATA) + 1):
             current_animation = pygame.image.load(f'assets/turret/archer/archer_weapon0{i}.png').convert_alpha()
             Archer_Tower.SPRITE_SHEET.append(current_animation)
     def update(self, enemy_group):

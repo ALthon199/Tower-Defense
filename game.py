@@ -3,9 +3,9 @@ import pygame
 
 
 import constants as c
-from homescreen import HomeScreen
-from gamescreen import GameScreen
-from losescreen import LoseScreen
+from Screen_Classes.homescreen import Home_Screen
+from Screen_Classes.gamescreen import Game_Screen
+from Screen_Classes.losescreen import Lose_Screen
 
 
 class Game():
@@ -18,24 +18,25 @@ class Game():
         self.state = 'home'
 
         #SCREENS
-        self.Homescreen = HomeScreen(self.screen, self.clock)
-        self.Gamescreen = GameScreen(self.screen, self.clock)
-        self.Losescreen = LoseScreen(self.screen, self.clock)
+        self.Home_Screen = Home_Screen(self.screen, self.clock)
+        self.Game_Screen = Game_Screen(self.screen, self.clock)
+        self.Lose_Screen = Lose_Screen(self.screen, self.clock)
 
 
     def run(self):
 
         while self.running:
-            print(self.state)
             if self.state == 'home':
-                self.Homescreen.running = True
-                self.state = self.Homescreen.run()
+                self.Home_Screen.running = True
+                self.state = self.Home_Screen.run()
 
             elif self.state == 'start_game':
-                self.state = self.Gamescreen.run()
+                self.Game_Screen = Game_Screen(self.screen, self.clock)
+
+                self.state = self.Game_Screen.run()
 
             elif self.state == 'lost':
-                self.state = self.Losescreen.run()
+                self.state = self.Lose_Screen.run()
 
             elif self.state == 'quit':
                 self.running = False

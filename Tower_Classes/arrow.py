@@ -1,33 +1,33 @@
 import pygame
 import json
 import constants as c
-from Tower_Classes.tower_data import TOWER_DATA
+from Tower_Classes.tower_data import ARCHER_DATA
 from Tower_Classes.projectile import Projectile   
 class Arrow(Projectile):
     ARROW_ANIMATION = []
     ARROW_JSON = []
     ARROW_IMPACT = []
-    ARROW_DATA = TOWER_DATA
+    ARROW_DATA = ARCHER_DATA
     def __init__(self, level, position, destination):
         if Arrow.ARROW_ANIMATION == []:
             self.load_assets()
         self.current_sprite = Arrow.ARROW_ANIMATION[level]
         self.current_json = Arrow.ARROW_JSON[level]
         self.animation_list = self.process()
-        self.damage = TOWER_DATA[level]['Damage']
+        self.damage = Arrow.ARROW_DATA[level]['Damage']
         super().__init__(self.animation_list, self.ARROW_IMPACT, position, destination, self.damage)
         
         
 
     def load_assets(self):
         
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ARCHER_DATA) + 1):
                 archer_animation = pygame.image.load(f'assets/turret/archer/archer_animation0{i}.png').convert_alpha()
                 Arrow.ARROW_ANIMATION.append(archer_animation)
             # Sprite sizes for each animation (non-uniform sizes)
        
 
-        for i in range(1, len(TOWER_DATA) + 1):
+        for i in range(1, len(ARCHER_DATA) + 1):
             path = f'assets/turret/archer/archer_projectile0{i}.json'
             with open(path) as file:
                 arrow_json = json.load(file) 
@@ -41,31 +41,16 @@ class Arrow(Projectile):
             start = 0 + x * size
             frame = impact_sheet.subsurface(start, 0, size, size)
             Arrow.ARROW_IMPACT.append(frame)
+            
     def update(self, enemy_group):
-
         if self.has_hit:
-            if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
-                self.last_frame = pygame.time.get_ticks()
-                self.frame += 1
-                if self.frame >= len(self.impact_sheet):
-                    self.kill()
+            super().hit_animation()
+            return 
+        if super().update_enemy(enemy_group):
             return
+        super().update_movement()
 
-        for enemy in enemy_group:
-            if self.rect.colliderect(enemy.rect):
-                enemy.HP -= self.damage
-                self.has_hit = True
-                self.frame = 0
-                self.rect.center = enemy.position
-                return
 
-        self.position += self.movement
-
-        if pygame.time.get_ticks() - self.last_frame >= c.PROJECTILE_DELAY:
-            self.last_frame = pygame.time.get_ticks()
-            self.frame += 1
-            if self.frame >= len(self.animation_list):
-                self.frame = 0
     def process(self):
         current_sheet = self.current_sprite
        

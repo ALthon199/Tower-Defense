@@ -3,10 +3,10 @@ import math
 import constants as c
 from Tower_Classes.arrow import Arrow
 class Tower(pygame.sprite.Sprite):
-    def __init__(self, type,  base_images, animation_list, tile_X, tile_Y, cost, projectile_group, TOWER_DATA, weapon_offset):
+    def __init__(self, type,  base_images, animation_list, tile_X, tile_Y,  projectile_group, tower_stats, weapon_offset):
         pygame.sprite.Sprite.__init__(self)
         self.type = type
-        self.TOWER_DATA = TOWER_DATA
+        self.tower_stats = tower_stats
         self.level = 0
         ## Firing ANimation
         self.sprite_sheet = base_images
@@ -26,12 +26,12 @@ class Tower(pygame.sprite.Sprite):
         
 
         #Stats
-        self.range = TOWER_DATA[self.level].get('Range')
-        self.cooldown = TOWER_DATA[self.level].get('Cooldown')
-        self.damage = TOWER_DATA[self.level].get('Damage')
-        self.cost = cost
-        self.upgrade_cost = TOWER_DATA[self.level].get('Upgrade')
-        self.next_range = TOWER_DATA[self.level + 1].get('Range', None)
+        self.range = tower_stats[self.level].get('Range')
+        self.cooldown = tower_stats[self.level].get('Cooldown')
+        self.damage = tower_stats[self.level].get('Damage')
+        self.cost = tower_stats[0].get('Cost')
+        self.upgrade_cost = tower_stats[self.level].get('Upgrade')
+        self.next_range = tower_stats[self.level + 1].get('Range', None)
         
 
         #image
@@ -78,19 +78,19 @@ class Tower(pygame.sprite.Sprite):
        
            
     def upgrade(self, current_gold):
-        if self.level < len(self.TOWER_DATA) - 1 and current_gold >= self.upgrade_cost:
+        if self.level < len(self.tower_stats) - 1 and current_gold >= self.upgrade_cost:
             current_gold = current_gold - self.upgrade_cost
             self.level += 1   
-            self.range = self.TOWER_DATA[self.level].get('Range')
+            self.range = self.tower_stats[self.level].get('Range')
 
-            if self.level == len(self.TOWER_DATA) - 1:
-                self.next_range = self.TOWER_DATA[self.level].get('Range', None)
+            if self.level == len(self.tower_stats) - 1:
+                self.next_range = self.tower_stats[self.level].get('Range', None)
             else:
-                self.next_range = self.TOWER_DATA[self.level+1].get('Range', None) 
+                self.next_range = self.tower_stats[self.level+1].get('Range', None) 
             self.range_image = pygame.Surface((self.next_range * 2, self.next_range * 2), pygame.SRCALPHA) 
-            self.cooldown = self.TOWER_DATA[self.level].get('Cooldown')
-            self.damage = self.TOWER_DATA[self.level].get('Damage')
-            self.upgrade_cost = self.TOWER_DATA[self.level].get('Upgrade')
+            self.cooldown = self.tower_stats[self.level].get('Cooldown')
+            self.damage = self.tower_stats[self.level].get('Damage')
+            self.upgrade_cost = self.tower_stats[self.level].get('Upgrade')
             self.animation_list = self.all_animation_list[self.level]
             self.animation_frames = len(self.animation_list)
             self.frame = 0
