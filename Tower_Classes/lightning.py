@@ -8,7 +8,7 @@ class Lightning(Projectile):
     LIGHTNING_JSON = []
     LIGHTNING_IMPACT = []
     LIGHTNING_DATA = ZAP_DATA
-    def __init__(self, level, position, destination):
+    def __init__(self, level, position, destination, projectile_group, chain_count = None, already_hit = None):
         if Lightning.LIGHTNING_ANIMATION == []:
             self.load_assets()
         self.level = level
@@ -17,7 +17,10 @@ class Lightning(Projectile):
         self.animation_list = self.process()
         self.damage = ZAP_DATA[level]['Damage']
         self.maxRange = ZAP_DATA[level]['Range']
-        super().__init__(self.animation_list, self.LIGHTNING_IMPACT[self.level], position, destination, self.damage)
+        self.chain = ZAP_DATA[level]['Chain'] if chain_count == None else chain_count # How many chains left
+        self.already_hit = [] if already_hit == None else already_hit
+        
+        super().__init__(self.animation_list, self.LIGHTNING_IMPACT[self.level], position, destination, self.damage, projectile_group)
 
         
     def update(self, enemy_group):
@@ -25,23 +28,55 @@ class Lightning(Projectile):
         if self.has_hit:
             super().hit_animation()
             return 
-        if super().update_enemy(enemy_group):
+        
+        enemy = self.update_enemy(enemy_group)
+
+        if enemy == None:
+            super().update_movement()
+        else:
+            self.already_hit.append(enemy)
+            self.chain_lightning(enemy_group)
+
+
+    def update_enemy(self, enemy_group):
+        for enemy in enemy_group:
+            if self.rect.colliderect(enemy.hitbox) and enemy not in self.already_hit:
+                enemy.current_HP -= self.damage
+                self.has_hit = True
+                self.frame = 0
+                self.rect.center = enemy.position
+                return enemy
+        return None
+
+    def chain_lightning(self, enemy_group):
+        if self.chain <= 0: # NO more chains
+            return 
+        enemy = self.find_enemy(enemy_group)
+
+        if enemy == None:
             return
-        super().update_movement()
-        
-      
-        
+        else:
+            new_bolt = Lightning(self.level, self.position, enemy.position, self.projectile_group, self.chain - 1, self.already_hit)
+            self.projectile_group.add(new_bolt)
+
+
+
+    def find_enemy(self, enemy_group):
+        for enemy in enemy_group:
+            if enemy not in self.already_hit and (self.original_position - enemy.position).magnitude() < self.maxRange :
+                return enemy
+        return None
 
     def load_assets(self):
         
         for i in range(1, len(ZAP_DATA) + 1):
-                archer_animation = pygame.image.load(f'assets/turret/zap/zap_projectile_0{i}.png').convert_alpha()
+                archer_animation = pygame.image.load(f'assets/tower/zap/zap_projectile_0{i}.png').convert_alpha()
                 Lightning.LIGHTNING_ANIMATION.append(archer_animation)
             # Sprite sizes for each animation (non-uniform sizes)
        
 
         for i in range(1, len(ZAP_DATA) + 1):
-            path = f'assets/turret/zap/zap_projectile_0{i}.json'
+            path = f'assets/tower/zap/zap_projectile_0{i}.json'
             with open(path) as file:
                 arrow_json = json.load(file) 
                 Lightning.LIGHTNING_JSON.append(arrow_json)
@@ -50,7 +85,7 @@ class Lightning(Projectile):
 
         for i in range(3):
             full_impact = []
-            impact_sheet = pygame.image.load(f'assets/turret/zap/zap_impact_0{i+1}.png').convert_alpha()
+            impact_sheet = pygame.image.load(f'assets/tower/zap/zap_impact_0{i+1}.png').convert_alpha()
             size = impact_sheet.get_height()
             for x in range(5):
                 start = 0 + x * size

@@ -8,34 +8,34 @@ class Arrow(Projectile):
     ARROW_JSON = []
     ARROW_IMPACT = []
     ARROW_DATA = ARCHER_DATA
-    def __init__(self, level, position, destination):
+    def __init__(self, level, position, destination, projectile_group):
         if Arrow.ARROW_ANIMATION == []:
             self.load_assets()
         self.current_sprite = Arrow.ARROW_ANIMATION[level]
         self.current_json = Arrow.ARROW_JSON[level]
         self.animation_list = self.process()
         self.damage = Arrow.ARROW_DATA[level]['Damage']
-        super().__init__(self.animation_list, self.ARROW_IMPACT, position, destination, self.damage)
+        super().__init__(self.animation_list, self.ARROW_IMPACT, position, destination, self.damage, projectile_group)
         
         
 
     def load_assets(self):
         
         for i in range(1, len(ARCHER_DATA) + 1):
-                archer_animation = pygame.image.load(f'assets/turret/archer/archer_animation0{i}.png').convert_alpha()
+                archer_animation = pygame.image.load(f'assets/tower/archer/archer_animation0{i}.png').convert_alpha()
                 Arrow.ARROW_ANIMATION.append(archer_animation)
             # Sprite sizes for each animation (non-uniform sizes)
        
 
         for i in range(1, len(ARCHER_DATA) + 1):
-            path = f'assets/turret/archer/archer_projectile0{i}.json'
+            path = f'assets/tower/archer/archer_projectile0{i}.json'
             with open(path) as file:
                 arrow_json = json.load(file) 
                 Arrow.ARROW_JSON.append(arrow_json)
 
         # impact animation are all 64 by 64 with a total of 6 frames
         
-        impact_sheet = pygame.image.load(f'assets/turret/archer/archer_impact.png').convert_alpha()
+        impact_sheet = pygame.image.load(f'assets/tower/archer/archer_impact.png').convert_alpha()
         size = impact_sheet.get_height()
         for x in range(6):
             start = 0 + x * size

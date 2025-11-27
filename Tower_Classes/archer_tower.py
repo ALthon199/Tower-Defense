@@ -15,6 +15,7 @@ class Archer_Tower(Tower):
             self.load_assets()
         animation_list = self.load_frames()
         weapon_offset = (3,-11)
+        upgrade_offset = (-80, -130)
         super().__init__('archer',
             Archer_Tower.BASE_IMAGES, 
             animation_list,
@@ -23,6 +24,7 @@ class Archer_Tower(Tower):
             projectile_group, 
             ARCHER_DATA,
             weapon_offset,
+            upgrade_offset
          
         )
         
@@ -44,13 +46,13 @@ class Archer_Tower(Tower):
     def load_assets(self):
         # Base
         for i in range(1, len(ARCHER_DATA) + 1):
-            current_image = pygame.image.load(f'assets/turret/archer/archer_{i}.png').convert_alpha()
+            current_image = pygame.image.load(f'assets/tower/archer/archer_{i}.png').convert_alpha()
             current_image = pygame.transform.scale(current_image, (48, 64))
             Archer_Tower.BASE_IMAGES.append(current_image)
         # Shooting 
         
         for i in range(1, len(ARCHER_DATA) + 1):
-            current_animation = pygame.image.load(f'assets/turret/archer/archer_weapon0{i}.png').convert_alpha()
+            current_animation = pygame.image.load(f'assets/tower/archer/archer_weapon0{i}.png').convert_alpha()
             Archer_Tower.SPRITE_SHEET.append(current_animation)
     def update(self, enemy_group):
         curr_enemy = None
@@ -86,7 +88,7 @@ class Archer_Tower(Tower):
             self.frame += 1
             self.last_update = current_time
             if self.frame >= self.animation_frames:
-                new_projectile = Arrow(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (curr_enemy.position))
+                new_projectile = Arrow(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (curr_enemy.position), self.projectile_group)
                 self.projectile_group.add(new_projectile)
                 self.frame = 0
         

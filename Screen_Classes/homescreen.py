@@ -49,7 +49,7 @@ class Home_Screen():
         
 
     def load_buttons(self):
-        self.start_button = Button((c.SCREEN_WIDTH + c.SIDE_PANEL)//2 - self.start_image.get_width()/2, 600, self.start_image, single_click = True)
+        self.start_button = Button((c.SCREEN_WIDTH + c.SIDE_PANEL)//2 - self.start_image.get_width()/2, 700, self.start_image, single_click = True)
         
 
         
@@ -59,7 +59,7 @@ class Home_Screen():
         self.start_image = pygame.transform.scale(self.start_image, (200,100))
         self.start_hovered_image = pygame.image.load('assets/buttons/start recolor.png')\
         
-        self.title_background = pygame.image.load('assets/images/background.png')
+        self.title_background = pygame.image.load('assets/images/homescreen.png')
         self.title_background = pygame.transform.scale(self.title_background, (c.SCREEN_WIDTH + c.SIDE_PANEL, c.SCREEN_HEIGHT))
        
     def load_fonts(self):

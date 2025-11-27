@@ -18,14 +18,16 @@ class Zap_Tower(Tower):
             self.load_assets()
         animation_list = self.process()
         weapon_offset = (0, -25)
-        super().__init__('archer',
+        upgrade_offset = (5, -70)
+        super().__init__('zap',
             Zap_Tower.BASE_IMAGES, 
             animation_list,
             tileX, 
             tileY, 
             projectile_group, 
             ZAP_DATA,
-            weapon_offset
+            weapon_offset,
+            upgrade_offset
         )
         
         
@@ -52,19 +54,19 @@ class Zap_Tower(Tower):
 
     def load_assets(self):
         for i in range(1, len(ZAP_DATA) + 1):
-            current_image = pygame.image.load(f'assets/turret/zap/zap_base_0{i}.png')
+            current_image = pygame.image.load(f'assets/tower/zap/zap_base_0{i}.png')
             current_image = pygame.transform.scale(current_image, (48, 64))
             Zap_Tower.BASE_IMAGES.append(current_image)
 
          # Shooting 
         self.zap_animations = []
         for i in range(1, len(ZAP_DATA) + 1):
-            current_animation = pygame.image.load(f'assets/turret/zap/zap_weapon_0{i}.png').convert_alpha()
+            current_animation = pygame.image.load(f'assets/tower/zap/zap_weapon_0{i}.png').convert_alpha()
             
             Zap_Tower.SPRITE_SHEET.append(current_animation)
         
         for i in range(1, len(ZAP_DATA) + 1):
-            path = f'assets/turret/zap/zap_weapon_0{i}.json'
+            path = f'assets/tower/zap/zap_weapon_0{i}.json'
             with open(path) as file:
                 arrow_json = json.load(file) 
                 Zap_Tower.SPRITE_SHEET_JSON.append(arrow_json)
@@ -98,7 +100,7 @@ class Zap_Tower(Tower):
             self.last_update = current_time
             if self.frame >= self.animation_frames:
                 enemy_position = enemy.position
-                new_projectile = Lightning(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (enemy_position))
+                new_projectile = Lightning(self.level,(self.tile_X * c.TILE_SIZE, self.tile_Y * c.TILE_SIZE), (enemy_position), self.projectile_group)
                 self.projectile_group.add(new_projectile)
                 self.frame = 0
  

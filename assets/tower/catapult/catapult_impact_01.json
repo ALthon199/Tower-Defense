@@ -1,0 +1,40 @@
+{
+"frames": {
+	"Tower 03 - Level 01 - Projectile - Impact_01.png": {
+		"frame": {"x":0, "y":34, "w":36, "h":32},
+		"spriteSourceSize": {"x":0,"y":0,"w":36,"h":32},
+		"sourceSize": {"w":36,"h":32}
+	},
+	"Tower 03 - Level 01 - Projectile - Impact_02.png": {
+		"frame": {"x":0, "y":0, "w":36, "h":33},
+		"spriteSourceSize": {"x":0,"y":0,"w":36,"h":33},
+		"sourceSize": {"w":36,"h":33}
+	},
+	"Tower 03 - Level 01 - Projectile - Impact_03.png": {
+		"frame": {"x":37, "y":0, "w":33, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":33,"h":25},
+		"sourceSize": {"w":33,"h":25}
+	},
+	"Tower 03 - Level 01 - Projectile - Impact_04.png": {
+		"frame": {"x":37, "y":26, "w":22, "h":21},
+		"spriteSourceSize": {"x":0,"y":0,"w":22,"h":21},
+		"sourceSize": {"w":22,"h":21}
+	},
+	"Tower 03 - Level 01 - Projectile - Impact_05.png": {
+		"frame": {"x":37, "y":48, "w":18, "h":16},
+		"spriteSourceSize": {"x":0,"y":0,"w":18,"h":16},
+		"sourceSize": {"w":18,"h":16}
+	},
+	"Tower 03 - Level 01 - Projectile - Impact_06.png": {
+		"frame": {"x":56, "y":48, "w":16, "h":15},
+		"spriteSourceSize": {"x":0,"y":0,"w":16,"h":15},
+		"sourceSize": {"w":16,"h":15}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 73, "h": 67},
+	"scale": "1"
+}
+}

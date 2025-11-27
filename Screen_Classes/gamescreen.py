@@ -17,22 +17,32 @@ class Game_Screen():
         self.running = True
         self.mouse_pos = (0, 0)
         
-        # 1. Load all assets
+        #Load all assets
         self.assets = Asset_Manager()
 
-        # 2. Create world
+        #Create world
         self.world = self.create_world()
 
-        # 3. Create game components
+        #Create game components
         self.game_state = GameState(self.world.waypoints)
         self.ui_manager = UI_Manager(self.assets)
         self.renderer = Game_Drawer(self.assets)
 
+
+        #
+        pygame.font.init()
+        self.font = pygame.font.SysFont('Arial', 16)
+
+
     def run(self):
         while self.running:
-            # --- 1. Get Input ---
+            
             self.mouse_pos = pygame.mouse.get_pos()
             self.current_time = pygame.time.get_ticks()
+
+           
+
+
 
             
             self.handle_events()
@@ -57,7 +67,16 @@ class Game_Screen():
             if self.game_state.current_lives < 1:
                 return 'lost' # Go to game over screen
 
+            if self.game_state.check_win_condition():
+                return 'won' # Go to win screen
             
+
+            coord_text = f"self.mouse_pos: {self.mouse_pos[0]}, {self.mouse_pos[1]}"
+            text_surface = self.font.render(coord_text, True, (0,0,0)) # (text, antialias, color)
+            text_rect = text_surface.get_rect(topleft=(self.mouse_pos[0] + 10, self.mouse_pos[1] + 10))
+            self.screen.blit(text_surface, text_rect)
+
+
             pygame.display.flip()
             self.clock.tick(60)
         
@@ -90,3 +109,5 @@ class Game_Screen():
         world = World(world_data, self.assets.map1_image)
         world.process_data()
         return world
+    
+    

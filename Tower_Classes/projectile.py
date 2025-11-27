@@ -3,7 +3,7 @@ import json
 import constants as c
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, animation_list, impact_list, position, destination, damage):
+    def __init__(self, animation_list, impact_list, position, destination, damage, projectile_group):
         pygame.sprite.Sprite.__init__(self)
         self.original_position = pygame.math.Vector2(position)
         self.position = self.original_position
@@ -16,19 +16,23 @@ class Projectile(pygame.sprite.Sprite):
         
         self.animation_list = animation_list
         self.impact_sheet = impact_list
+       
         self.last_frame = 0
         self.frame = 0
+        
         self.image = self.animation_list[0]
         
         self.rect = self.image.get_rect()
         self.rect.center = self.position
         self.has_hit = False
     
-    
+
+        self.projectile_group = projectile_group
+
     def draw(self, surface):
         if self.has_hit:
             base_image = self.impact_sheet[self.frame]
-            surface.blit(base_image, (self.rect))
+            surface.blit(base_image, (self.rect[0] - base_image.get_width() // 2,self.rect[1] - base_image.get_width() // 2 ) )
         else:
             base_image = self.animation_list[self.frame]
             rotated_image = pygame.transform.rotate(base_image, self.angle - 90)

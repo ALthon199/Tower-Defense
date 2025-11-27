@@ -27,8 +27,16 @@ class Game_Drawer():
         for enemy in game_state.enemy_group:
             enemy.draw(screen)
 
+
+        selected_tower = None
         for tower in game_state.tower_group:
+            if tower.is_selected:
+                selected_tower = tower
+                continue
             tower.draw(screen)
+            
+        if selected_tower:
+            selected_tower.draw(screen)
         
         for projectile in game_state.projectile_group:
             projectile.draw(screen)

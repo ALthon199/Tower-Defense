@@ -6,7 +6,7 @@ import constants as c
 from Screen_Classes.homescreen import Home_Screen
 from Screen_Classes.gamescreen import Game_Screen
 from Screen_Classes.losescreen import Lose_Screen
-
+from Screen_Classes.winscreen import Win_Screen
 
 class Game():
     def __init__(self):
@@ -21,6 +21,7 @@ class Game():
         self.Home_Screen = Home_Screen(self.screen, self.clock)
         self.Game_Screen = Game_Screen(self.screen, self.clock)
         self.Lose_Screen = Lose_Screen(self.screen, self.clock)
+        self.win_screen = Win_Screen(self.screen, self.clock)
 
 
     def run(self):
@@ -41,7 +42,8 @@ class Game():
             elif self.state == 'quit':
                 self.running = False
                 
-        
+            elif self.state == 'won':
+                self.state = self.win_screen.run()
         pygame.quit()
 
    
