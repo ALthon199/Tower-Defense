@@ -3,6 +3,7 @@ import constants as c
 from Tower_Classes.tower_data import ARCHER_DATA
 from Tower_Classes.tower_data import ZAP_DATA
 from Tower_Classes.tower_data import CATAPULT_DATA
+from Tower_Classes.tower_data import FIRE_DATA
 
 class Asset_Manager:
     def __init__(self):
@@ -11,8 +12,12 @@ class Asset_Manager:
 
         # Load Tower Assets
         self.load_tower_assets()
-
+        
         # Load UI Assets
+        self.purchase_panel = pygame.image.load('assets/images/purchase_panel.png').convert_alpha()
+
+
+
         self.coin = pygame.image.load('assets/icons/coins.png').convert_alpha()
         self.coin = pygame.transform.scale(self.coin, (40, 40))
         self.heart = pygame.image.load('assets/icons/heart.png').convert_alpha()
@@ -62,3 +67,12 @@ class Asset_Manager:
       
             
         self.towers[self.catapult_base_image[0]] = [self.catapult_base_image]
+
+
+        ## Fire Tower
+        self.fire_base_image = []
+        for i in range(1, len(FIRE_DATA) + 1):
+            current_image = pygame.image.load(f'assets/tower/fire/fire_base_0{i}.png')
+            current_image = pygame.transform.scale(current_image, (48, 64))
+            self.fire_base_image.append(current_image)
+        self.towers[self.fire_base_image[0]] = [self.fire_base_image]

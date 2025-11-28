@@ -56,3 +56,8 @@ class Wave_Manager:
                 self.spawn_counter = {}
 
             return reward
+    def get_wave_description(self):
+        if self.current_wave_config:
+            
+            return self.current_wave_config['description']
+        return ''

@@ -1,0 +1,55 @@
+{
+"frames": {
+    "fire_impact_01.png": {
+        "frame": {"x":98, "y":0, "w":22, "h":31},
+        "spriteSourceSize": {"x":0,"y":0,"w":22,"h":31},
+        "sourceSize": {"w":22,"h":31}
+    },
+    "fire_impact_02.png": {
+        "frame": {"x":69, "y":0, "w":28, "h":31},
+        "spriteSourceSize": {"x":0,"y":0,"w":28,"h":31},
+        "sourceSize": {"w":28,"h":31}
+    },
+    "fire_impact_03.png": {
+        "frame": {"x":102, "y":84, "w":20, "h":15},
+        "spriteSourceSize": {"x":0,"y":0,"w":20,"h":15},
+        "sourceSize": {"w":20,"h":15}
+    },
+    "fire_impact_04.png": {
+        "frame": {"x":44, "y":101, "w":32, "h":26},
+        "spriteSourceSize": {"x":0,"y":0,"w":32,"h":26},
+        "sourceSize": {"w":32,"h":26}
+    },
+    "fire_impact_05.png": {
+        "frame": {"x":77, "y":84, "w":24, "h":33},
+        "spriteSourceSize": {"x":0,"y":0,"w":24,"h":33},
+        "sourceSize": {"w":24,"h":33}
+    },
+    "fire_impact_06.png": {
+        "frame": {"x":67, "y":47, "w":46, "h":36},
+        "spriteSourceSize": {"x":0,"y":0,"w":46,"h":36},
+        "sourceSize": {"w":46,"h":36}
+    },
+    "fire_impact_07.png": {
+        "frame": {"x":0, "y":0, "w":68, "h":46},
+        "spriteSourceSize": {"x":0,"y":0,"w":68,"h":46},
+        "sourceSize": {"w":68,"h":46}
+    },
+    "fire_impact_08.png": {
+        "frame": {"x":0, "y":47, "w":66, "h":53},
+        "spriteSourceSize": {"x":0,"y":0,"w":66,"h":53},
+        "sourceSize": {"w":66,"h":53}
+    },
+    "fire_impact_09.png": {
+        "frame": {"x":0, "y":101, "w":43, "h":27},
+        "spriteSourceSize": {"x":0,"y":0,"w":43,"h":27},
+        "sourceSize": {"w":43,"h":27}
+    }
+
+},
+"meta": {
+    "image": "sprites.png",
+    "size": {"w": 123, "h": 129},
+    "scale": "1"
+}
+}

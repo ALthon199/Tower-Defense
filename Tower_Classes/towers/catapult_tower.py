@@ -2,9 +2,9 @@ import pygame
 import constants as c
 import json
 import math
-from Tower_Classes.tower import Tower
+from Tower_Classes.towers.tower import Tower
 from Tower_Classes.tower_data import CATAPULT_DATA
-from Tower_Classes.bomb import Bomb
+from Tower_Classes.projectiles.bomb import Bomb
 class Catapult_Tower(Tower):
    
     BASE_IMAGES = []

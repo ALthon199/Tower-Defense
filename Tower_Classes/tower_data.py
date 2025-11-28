@@ -43,3 +43,24 @@ CATAPULT_DATA = [
     {"Range": 280, "Cooldown": 1000, "Damage": 90, 'explosion_scale' : 8, "Upgrade": None,
      "Description": """Lvl 3: DMG 90. Range 280. \nCD 1000ms. Scale 8.\nMax AoE and Damage."""},
 ]
+
+
+
+
+
+FIRE_DATA = [
+    # Base Tower (Level 1)
+    {"Cost": 50, "Range": 200, "Cooldown": 1500, "Damage": 45, "Upgrade": 75,
+     "Pattern": ["LEFT"], # Shoots only to the left
+     "Description": """Lvl 1: DMG 45. Range 200. \nCD 1500ms.\nPattern: Left only."""},
+
+    # Upgrade 1 (Level 2)
+    {"Range": 240, "Cooldown": 1250, "Damage": 65, "Upgrade": 125,
+     "Pattern": ["LEFT", "RIGHT"], # Shoots left and right
+     "Description": """Lvl 2: DMG 65. Range 240. \nCD 1250ms.\nPattern: Left and Right."""},
+
+    # Upgrade 2 (Level 3 - Max Level)
+    {"Range": 280, "Cooldown": 1000, "Damage": 90, "Upgrade": None,
+     "Pattern": ["LEFT", "RIGHT", "UP", "DOWN"], # Shoots in all four directions
+     "Description": """Lvl 3: DMG 90. Range 280. \nCD 1000ms.\nPattern: All Directions."""},
+]

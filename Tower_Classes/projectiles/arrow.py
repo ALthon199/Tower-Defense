@@ -2,7 +2,7 @@ import pygame
 import json
 import constants as c
 from Tower_Classes.tower_data import ARCHER_DATA
-from Tower_Classes.projectile import Projectile   
+from Tower_Classes.projectiles.projectile import Projectile   
 class Arrow(Projectile):
     ARROW_ANIMATION = []
     ARROW_JSON = []

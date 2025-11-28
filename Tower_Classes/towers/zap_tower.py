@@ -2,9 +2,9 @@ import pygame
 import constants as c
 import json
 import math
-from Tower_Classes.tower import Tower
+from Tower_Classes.towers.tower import Tower
 from Tower_Classes.tower_data import ZAP_DATA
-from Tower_Classes.lightning import Lightning
+from Tower_Classes.projectiles.lightning import Lightning
 class Zap_Tower(Tower):
    
     BASE_IMAGES = []

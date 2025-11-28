@@ -4,12 +4,14 @@ from Screen_Classes.Managers.wave_manager import Wave_Manager
 from Enemy_Classes.zombie import Zombie
 from Enemy_Classes.shield_zombie import Shield_Zombie
 from Enemy_Classes.boss import Boss
-from Tower_Classes.archer_tower import Archer_Tower
-from Tower_Classes.zap_tower import Zap_Tower
-from Tower_Classes.catapult_tower import Catapult_Tower
+from Tower_Classes.towers.archer_tower import Archer_Tower
+from Tower_Classes.towers.zap_tower import Zap_Tower
+from Tower_Classes.towers.catapult_tower import Catapult_Tower
+from Tower_Classes.towers.fire_tower import Fire_Tower
 from Tower_Classes.tower_data import ARCHER_DATA
 from Tower_Classes.tower_data import ZAP_DATA
 from Tower_Classes.tower_data import CATAPULT_DATA
+from Tower_Classes.tower_data import FIRE_DATA
 import functions
 
 class GameState():
@@ -53,6 +55,7 @@ class GameState():
         
         # Update waves and get gold
         self.current_gold += self.wave_manager.update(current_time)
+        
 
     def check_win_condition(self):
         if len(self.enemy_group) == 0 and self.wave_manager.wave > len(self.wave_manager.wave_data):
@@ -75,7 +78,11 @@ class GameState():
             self.tower_range = CATAPULT_DATA[0].get('Range')
             self.cursor_tower = assets.catapult_base_image[0]
             
-        
+        elif tower_type == "fire":
+            self.tower_cost = FIRE_DATA[0].get('Cost')
+            self.tower_range = FIRE_DATA[0].get('Range')
+            self.cursor_tower = assets.fire_base_image[0]
+
         self.placing_turrets = True
         self.cursor_surface = pygame.Surface((self.tower_range * 2, self.tower_range * 2), pygame.SRCALPHA)
         self.clear_select()
@@ -118,6 +125,12 @@ class GameState():
             if self.current_gold >= self.tower_cost:
                 
                 new_tower = Catapult_Tower(mouse_tileX, mouse_tileY, self.projectile_group)
+                self.tower_group.add(new_tower)
+                self.current_gold -= new_tower.cost
+        elif is_allowed and self.cursor_tower == assets.fire_base_image[0]:
+            if self.current_gold >= self.tower_cost:
+                
+                new_tower = Fire_Tower(mouse_tileX, mouse_tileY, self.projectile_group)
                 self.tower_group.add(new_tower)
                 self.current_gold -= new_tower.cost
 

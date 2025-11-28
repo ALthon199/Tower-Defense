@@ -2,7 +2,7 @@ import pygame
 import json
 import constants as c
 from Tower_Classes.tower_data import ZAP_DATA
-from Tower_Classes.projectile import Projectile   
+from Tower_Classes.projectiles.projectile import Projectile   
 class Lightning(Projectile):
     LIGHTNING_ANIMATION = []
     LIGHTNING_JSON = []

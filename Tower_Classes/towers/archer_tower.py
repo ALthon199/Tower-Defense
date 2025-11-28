@@ -1,9 +1,9 @@
 import pygame
 import constants as c
 import math
-from Tower_Classes.tower import Tower
+from Tower_Classes.towers.tower import Tower
 from Tower_Classes.tower_data import ARCHER_DATA
-from Tower_Classes.arrow import Arrow
+from Tower_Classes.projectiles.arrow import Arrow
 
 class Archer_Tower(Tower):
     BASE_IMAGES = []

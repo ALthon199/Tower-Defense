@@ -5,7 +5,7 @@ from World_Classes.button import Button
 class Game_Drawer():
     def __init__(self, assets):
         # Tower Upgrade/Cancel Buttons
-        self.cancel_button = Button(c.SCREEN_WIDTH + 10, 300, assets.cancel_buy_image, single_click=True)
+        self.cancel_button = Button(c.SCREEN_WIDTH + 10, 600, assets.cancel_buy_image, single_click=True)
         self.upgrade_button = Button(c.SCREEN_WIDTH + 10, 600, assets.upgrade_image, single_click=True)
 
     def draw_all(self, screen, world, game_state, ui_manager, mouse_pos, assets):
@@ -34,7 +34,7 @@ class Game_Drawer():
                 selected_tower = tower
                 continue
             tower.draw(screen)
-            
+
         if selected_tower:
             selected_tower.draw(screen)
         

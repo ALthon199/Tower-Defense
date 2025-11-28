@@ -1,7 +1,7 @@
 import pygame 
 import math
 import constants as c
-from Tower_Classes.arrow import Arrow
+from Tower_Classes.projectiles.arrow import Arrow
 class Tower(pygame.sprite.Sprite):
     UPGRADE_PANEL = None
     def __init__(self, type,  base_images, animation_list, tile_X, tile_Y,  projectile_group, tower_stats, weapon_offset, upgrade_offset=(0,0)):
