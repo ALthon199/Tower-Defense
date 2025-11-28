@@ -7,7 +7,7 @@ class Wave_Manager:
         self.wave_data = WAVE_DATA
         self.enemy_class_map = enemy_class_map
 
-        self.wave = 10
+        self.wave = 1
         self.current_wave_config = self.wave_data.get(f'wave_{self.wave}')
         self.wave_start_time = 0
         self.spawn_counter = {}

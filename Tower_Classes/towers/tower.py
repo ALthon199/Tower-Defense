@@ -84,7 +84,7 @@ class Tower(pygame.sprite.Sprite):
 
 
             # Description
-            text = self.font.render(f'{self.type} Tower Lv.{self.level}'.upper(), True, (0,0,0))
+            text = self.font.render(f'{self.type} Tower Lv.{self.level + 1}'.upper(), True, (0,0,0))
             description = self.tower_stats[self.level]['Description']
             words = description.split('\n')
             

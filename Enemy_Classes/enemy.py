@@ -14,7 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = speed
         self.waypoints = waypoints
         self.current_waypoint = 1
-
+        self.movement = pygame.math.Vector2(0,0)
         # Drawing
         self.image = self.animation[self.direction][self.frame]
         self.y_offset = y_offset

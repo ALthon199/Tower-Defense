@@ -1,66 +1,61 @@
+
 ARCHER_DATA = [
-    # Base Tower (Level 1)
-    {"Cost": 50, "Range": 200, "Cooldown": 1500, "Damage": 45, "Upgrade": 75,
-     "Description": """Lvl 1: DMG 45. Range 200. \nCD 1500ms.\nSingle Target."""},
+    # Level 1: Start
+    {"Cost": 75, "Range": 200, "Cooldown": 750, "Damage": 50, "Upgrade": 100,
+     "Description": """Lvl 1: Hit 1 enemy. \nDMG 50. Range 200. \nWait 0.75 seconds."""},
 
-    # Upgrade 1 (Level 2)
-    {"Range": 240, "Cooldown": 1250, "Damage": 65, "Upgrade": 125,
-     "Description": """Lvl 2: DMG 65. Range 240. \nCD 1250ms.\nHigh Efficiency."""},
+    # Level 2: Better damage and speed
+    {"Range": 250, "Cooldown": 600, "Damage": 85, "Upgrade": 180,
+     "Description": """Lvl 2: Hit 1 enemy. \nDMG 85. Range 250. \nWait 0.6 seconds."""},
 
-    # Upgrade 2 (Level 3)
-    {"Range": 280, "Cooldown": 1000, "Damage": 90, "Upgrade": None,
-     "Description": """Lvl 3: DMG 90. Range 280. \nCD 1000ms.\nMax Single Target DPS."""},
+    # Level 3: Max power
+    {"Range": 300, "Cooldown": 450, "Damage": 130, "Upgrade": None,
+     "Description": """Lvl 3: Hit 1 enemy. \nDMG 130. Range 300. \nWait 0.45 seconds. Max power."""},
 ]
-
 
 
 ZAP_DATA = [
-    # Base Tower (Level 1)
-    {"Cost": 125, "Range": 110, "Cooldown": 1400, "Damage": 30, "Chain": 2, "Upgrade": 150,
-     "Description": """Lvl 1: DMG 30. Range 110. \nCD 1400ms. Chain 2.\nChain Lightning."""},
+    # Level 1: Hits 3 enemies
+    {"Cost": 150, "Range": 120, "Cooldown": 700, "Damage": 40, "Chain": 3, "Upgrade": 200,
+     "Description": """Lvl 1: Hits 3 nearby enemies. \nDMG 40. Range 120. \nWait 0.7 seconds."""},
 
-    # Upgrade 1 (Level 2)
-    {"Range": 110, "Cooldown": 1100, "Damage": 45, "Chain": 4, "Upgrade": 350,
-     "Description": """Lvl 2: DMG 45. Range 110. \nCD 1100ms. Chain 4.\nIncreased Chain Targets."""},
+    # Level 2: Hits 5 enemies
+    {"Range": 130, "Cooldown": 550, "Damage": 60, "Chain": 5, "Upgrade": 400,
+     "Description": """Lvl 2: Hits 5 nearby enemies. \nDMG 60. Range 130. \nWait 0.55 seconds."""},
 
-    # Upgrade 2 (Level 3)
-    {"Range": 115, "Cooldown": 800, "Damage": 75, "Chain": 8, "Upgrade": None,
-     "Description": """Lvl 3: DMG 75. Range 115. \nCD 800ms. Chain 8.\nMaximum Chain Capacity."""},
+    # Level 3: Hits 8 enemies
+    {"Range": 140, "Cooldown": 400, "Damage": 85, "Chain": 8, "Upgrade": None,
+     "Description": """Lvl 3: Hits 8 nearby enemies. \nDMG 85. Range 140. \nWait 0.4 seconds. Max chain."""},
 ]
-
 
 
 CATAPULT_DATA = [
-    # Base Tower (Level 1)
-    {"Cost": 50, "Range": 200, "Cooldown": 1500, "Damage": 45, 'explosion_scale' : 2, "Upgrade": 75,
-     "Description": """Lvl 1: DMG 45. Range 200. \nCD 1500ms. Scale 2.\nArea Damage."""},
+    # Level 1: Small splash (Scale 2). Low damage, fast fire.
+    {"Cost": 60, "Range": 220, "Cooldown": 750, "Damage": 30, 'explosion_scale' : 2, "Upgrade": 90,
+     "Description": """Lvl 1: Splash damage. \nDMG 30. Range 220. \nWait 0.75s. Small area."""},
 
-    # Upgrade 1 (Level 2)
-    {"Range": 240, "Cooldown": 1250, "Damage": 65, 'explosion_scale' : 4, "Upgrade": 125,
-     "Description": """Lvl 2: DMG 65. Range 240. \nCD 1250ms. Scale 4.\nLarger AoE."""},
+    # Level 2: Medium splash (Scale 3).
+    {"Range": 260, "Cooldown": 650, "Damage": 45, 'explosion_scale' : 3, "Upgrade": 180,
+     "Description": """Lvl 2: Splash damage. \nDMG 45. Range 260. \nWait 0.65s. Medium area."""},
 
-    # Upgrade 2 (Level 3)
-    {"Range": 280, "Cooldown": 1000, "Damage": 90, 'explosion_scale' : 8, "Upgrade": None,
-     "Description": """Lvl 3: DMG 90. Range 280. \nCD 1000ms. Scale 8.\nMax AoE and Damage."""},
+    # Level 3: Max splash (Scale 5). Still less powerful than previous Lvl 2.
+    {"Range": 300, "Cooldown": 550, "Damage": 60, 'explosion_scale' : 5, "Upgrade": None,
+     "Description": """Lvl 3: Splash damage. \nDMG 60. Range 300. \nWait 0.55s. Max splash area."""},
 ]
 
-
-
-
-
 FIRE_DATA = [
-    # Base Tower (Level 1)
-    {"Cost": 50, "Range": 200, "Cooldown": 1500, "Damage": 45, "Upgrade": 75,
-     "Pattern": ["LEFT"], # Shoots only to the left
-     "Description": """Lvl 1: DMG 45. Range 200. \nCD 1500ms.\nPattern: Left only."""},
+    # Level 1: Shoots LEFT, pushes 10
+    {"Cost": 75, "Range": 180, "Cooldown": 750, "Damage": 55, "Push_Back": 20, "Upgrade": 100,
+     "Pattern": ["LEFT"], 
+     "Description": """Lvl 1: Shoots LEFT. \nDMG 55. Range 180. \nPush 10. Wait 0.75s."""},
 
-    # Upgrade 1 (Level 2)
-    {"Range": 240, "Cooldown": 1250, "Damage": 65, "Upgrade": 125,
-     "Pattern": ["LEFT", "RIGHT"], # Shoots left and right
-     "Description": """Lvl 2: DMG 65. Range 240. \nCD 1250ms.\nPattern: Left and Right."""},
+    # Level 2: Shoots LEFT/RIGHT, pushes 15
+    {"Range": 200, "Cooldown": 625, "Damage": 70, "Push_Back": 30, "Upgrade": 175,
+     "Pattern": ["LEFT", "RIGHT"], 
+     "Description": """Lvl 2: Shoots L/R. \nDMG 70. Range 200. \nPush 15. Wait 0.625s."""},
 
-    # Upgrade 2 (Level 3 - Max Level)
-    {"Range": 280, "Cooldown": 1000, "Damage": 90, "Upgrade": None,
-     "Pattern": ["LEFT", "RIGHT", "UP", "DOWN"], # Shoots in all four directions
-     "Description": """Lvl 3: DMG 90. Range 280. \nCD 1000ms.\nPattern: All Directions."""},
+    # Level 3: Shoots ALL, pushes 25
+    {"Range": 220, "Cooldown": 550, "Damage": 90, "Push_Back": 50, "Upgrade": None,
+     "Pattern": ["LEFT", "RIGHT", "UP", "DOWN"], 
+     "Description": """Lvl 3: Shoots ALL ways. \nDMG 90. Range 220. \nPush 25. Wait 0.55s. Max push."""},
 ]

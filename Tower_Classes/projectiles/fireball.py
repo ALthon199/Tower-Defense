@@ -18,13 +18,34 @@ class Fire_Ball(Projectile):
         super().__init__(Fire_Ball.FIRE_BALL_ANIMATION, self.impact_list, position, destination, self.damage, projectile_group)
         
     def update(self, enemy_group):
+        
         if self.has_hit:
             super().hit_animation()
             return 
-        if super().update_enemy(enemy_group):
+        
+        if self.update_enemy(enemy_group):
+            
             return
         super().update_movement()   
 
+
+    def update_enemy(self, enemy_group):
+        
+        for enemy in enemy_group:
+            if self.rect.colliderect(enemy.hitbox):
+                enemy.current_HP -= self.damage
+                self.enemy_knockback(enemy)
+                self.has_hit = True
+                self.frame = 0
+                self.rect.center = enemy.position
+                return True
+        return False
+    
+    def enemy_knockback(self, enemy):
+        movement = enemy.movement.normalize()
+       
+        enemy.position[0] -= movement.x * Fire_Ball.FIRE_BALL_DATA[0]['Push_Back']
+        enemy.position[1] -= movement.y * Fire_Ball.FIRE_BALL_DATA[0]['Push_Back']
     def load_assets(self):
         
         
@@ -61,13 +82,5 @@ class Fire_Ball(Projectile):
     
 
            
-    def update(self, enemy_group):
-        if self.has_hit:
-            super().hit_animation()
-            return 
-        if super().update_enemy(enemy_group):
-            return
-        super().update_movement()
-
-
+   
     

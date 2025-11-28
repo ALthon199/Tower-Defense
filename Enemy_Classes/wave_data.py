@@ -2,9 +2,9 @@ WAVE_DATA ={
     "wave_1": {
         "description": "The Basics: A simple, slow trickle to introduce the enemy.",
         "duration": 8,
-        "reward": 500,
+        "reward": 100,
         "spawn_events": [
-            { "mob_type": "Zombie", "count": 30, "spawn_delay": 0.1, "start_time": 0 }
+            { "mob_type": "Zombie", "count": 5, "spawn_delay": 1, "start_time": 0 }
         ]
     },
     "wave_2": {

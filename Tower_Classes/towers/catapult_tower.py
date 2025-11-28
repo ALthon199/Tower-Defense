@@ -104,7 +104,7 @@ class Catapult_Tower(Tower):
     def play_animation(self, enemy):
         # check time
         current_time = pygame.time.get_ticks()
-        if current_time - self.last_update >= self.cooldown // (self.animation_frames*3) :
+        if current_time - self.last_update >= self.cooldown // (self.animation_frames):
             self.frame += 1
             self.last_update = current_time
             if self.frame >= self.animation_frames:

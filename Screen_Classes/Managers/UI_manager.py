@@ -1,7 +1,7 @@
 import pygame
 import constants as c
 from World_Classes.button import Button
-
+from Tower_Classes.tower_data import ARCHER_DATA, ZAP_DATA, CATAPULT_DATA
 class UI_Manager():
     def __init__(self, assets):
         # UI 
@@ -22,6 +22,7 @@ class UI_Manager():
         
         # Draw Purchase UI
         screen.blit(assets.purchase_panel, (c.SCREEN_WIDTH, 0))
+
         # Draw buttons and check for clicks
         if self.exit_button.draw(screen):
             return 'home' 
@@ -40,9 +41,11 @@ class UI_Manager():
             game_state.start_placing("fire", assets)
         
 
-
-
-        # Game Variables
+        
+        self.draw_game_info(screen, game_state)
+        return None 
+    
+    def draw_game_info(self, screen, game_state):
 
         # Draw Resources
         gold_surface = self.resources_font.render(f'Gold: {game_state.current_gold}', True, (255,223,0))
@@ -51,8 +54,8 @@ class UI_Manager():
         lives_surface = self.resources_font.render(f'Lives: {game_state.current_lives}', True, (200,0,0))
         screen.blit(lives_surface, (c.SCREEN_WIDTH  - 100, 50))
         screen.blit(self.heart, (c.SCREEN_WIDTH  - 145, 45))
-        
-        # Game Info
+
+        # Game variables
         wave_surface = self.wave_font.render(f'Wave: {game_state.wave_manager.wave}', True, (255,0,0))
         screen.blit(wave_surface, (0,0))
         wave_info = self.resources_font.render(f'Enemies Left: {len(game_state.enemy_group)}', True, (255,0,0))
@@ -61,4 +64,18 @@ class UI_Manager():
         wave_descripton = self.resources_font.render(f'{game_state.wave_manager.get_wave_description()}', True, (255,255,100))
         screen.blit(wave_descripton, (0,770))
 
-        return None 
+
+        # Draw Tower costs
+        archer_cost = ARCHER_DATA[0].get('Cost')
+        archer_cost_surface = self.resources_font.render(f'Cost: {archer_cost}', True, (0,0,0))
+        screen.blit(archer_cost_surface, (1060, 180))
+        zap_cost = ZAP_DATA[0].get('Cost')
+        zap_cost_surface = self.resources_font.render(f'Cost: {zap_cost}', True, (0,0,0))
+        screen.blit(zap_cost_surface, (1200, 180))   
+        catapult_cost = CATAPULT_DATA[0].get('Cost')
+        catapult_cost_surface = self.resources_font.render(f'Cost: {catapult_cost}', True, (0,0,0))
+        screen.blit(catapult_cost_surface, (1060, 310))
+        fire_cost = CATAPULT_DATA[0].get('Cost')
+        fire_cost_surface = self.resources_font.render(f'Cost: {fire_cost}', True, (0,0,0))
+        screen.blit(fire_cost_surface, (1200, 310))
+       
